@@ -1,6 +1,6 @@
 from pydantic import BaseModel
-from modelo.transacciones import Transacciones
-from modelo.cliente import Cliente
+from app.modelos.transacciones import Transacciones
+from app.modelos.cliente import Cliente
 from datetime import datetime
 
 

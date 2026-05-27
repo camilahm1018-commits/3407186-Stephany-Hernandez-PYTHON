@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
-from modelo.cliente import Cliente, ClienteCrear, ClienteEditar
-from modelo.transacciones import crearTransacciones,editarTransacciones,Transacciones
-from modelo.factura import  Factura, FacturaCrear, FacturaEditar
+from app.modelos.cliente import Cliente, ClienteCrear, ClienteEditar
+from app.modelos.transacciones import crearTransacciones,editarTransacciones,Transacciones
+from app.modelos.factura import  Factura, FacturaCrear, FacturaEditar
 
 
 app= FastAPI()
