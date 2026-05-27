@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
-from modelo.cliente import Cliente, ClienteCrear, ClienteBase, ClienteEditar
-from modelo.transacciones import TransaccionesBase,crearTransacciones,editarTransacciones,Transacciones
-from modelo.factura import  Factura, FacturaBase, FacturaCrear, FacturaEditar
+from modelo.cliente import Cliente, ClienteCrear, ClienteEditar
+from modelo.transacciones import crearTransacciones,editarTransacciones,Transacciones
+from modelo.factura import  Factura, FacturaCrear, FacturaEditar
 
 
 app= FastAPI()
@@ -89,7 +89,6 @@ async def crear_factura(datos_factura: FacturaCrear):
         total=0
     )
     factura_val.total = factura_val.calcular_total()
-    
     lista_factura.append(factura_val)
     return factura_val
 
