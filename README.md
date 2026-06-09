@@ -80,3 +80,14 @@ En este commit se realizo:
 - En el archivo ` factura.py` de la carpeta `enrutador` se agregaron todas los endpoints de factura, tambien se importo la lista de factura y clientes del archivo `listas_app.py` , el modelo de factura con sus clases, el JSONResponse para los mensajes de error con sus codigos de estado y `APIRouter` para crear la ruta de factura, para crear esas rutas se creo una variable llamada rutas_factura
 - En el archivo ` transacciones.py` de la carpeta `enrutador` se agregaron todas los endpoints de transacciones, tambien se importo la lista de factura del archivo `listas_app.py` , el modelo de transacciones con sus clases, el JSONResponse para los mensajes de error con sus codigos de estado y `APIRouter` para crear la ruta de transacciones y para crear esas rutas se creo una variable llamada rutas_transacciones
 - En el archivo main.py se eliminaron todos los endpoints ya que se transladaron a los archvos de la crapeta enrutador, tambien se importo la carpeta `enrutador` donde se importaron los archivos de clientes, factura y transacciones y se importo el archivo `listas_app.py` con las listas de clientes y factura y por ultimo se agruparon los endpoints con la funcion de `tag` para para agregar las dierentes categorias de las rutas como clientes, factura y transacciones
+
+## 8 commit:
+
+En este commit se realizó:
+
+- Se agregaron las dependencias `fastapi` y `sqlmodel` en el archivo `requirements.txt`.
+- Se utilizo el archivo `conexion_bd.py` para gestionar la conexión con la base de datos SQLite.
+- Se configuró el nombre y la URL de la base de datos `bd_clientes_3407186.sqlite3`.
+- Se creó el motor de conexión mediante `create_engine()`.
+- Se implementó la función `obtener_sesion()` para administrar las sesiones de la base de datos.
+- Se definió la dependencia `sesion_dependencia` utilizando `Depends` y `Annotated` para facilitar el acceso a la sesión de la base de datos desde los endpoints de FastAPI.
