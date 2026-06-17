@@ -91,3 +91,25 @@ En este commit se realizó:
 - Se creó el motor de conexión mediante `create_engine()`.
 - Se implementó la función `obtener_sesion()` para administrar las sesiones de la base de datos.
 - Se definió la dependencia `sesion_dependencia` utilizando `Depends` y `Annotated` para facilitar el acceso a la sesión de la base de datos desde los endpoints de FastAPI.
+
+## 9 commit:
+
+En este commit se realizo:
+
+- Se configuró la conexión a una base de datos `SQLite` mediante `SQLModel`.
+- Se agregó la función `crear_tablas()` para generar automáticamente las tablas al iniciar la aplicación.
+- - Se modificó el archivo `main.py` para ejecutar la creación de tablas mediante el parámetro `lifespan`.
+- El modelo `Cliente` fue actualizado de Pydantic a `SQLModel` para permitir su almacenamiento en la base de datos.
+- Se definió la tabla cliente utilizando `table=True`.
+- - Se configuró el campo `id` del modelo `Cliente` como llave primaria mediante `primary_key=True`.
+- Se reemplazó el atributo `edad` por el atributo `email` en el modelo de clientes.
+- Se modificó el modelo Cliente para utilizar `Field()` de SQLModel en la definición de sus atributos.
+- Se definieron los campos nombre, email y descripcion como columnas de la tabla cliente.
+- Se generó el archivo de base de datos `bd_clientes_3407186.sqlite3`.
+- Se actualizó el endpoint de listar clientes para consultar directamente la información almacenada en la base de datos.
+- Se actualizó el endpoint de consultar cliente por id utilizando `mi_sesion.get()`.
+- Se modificó el endpoint de creación para almacenar los registros mediante `add(), commit() y refresh()`.
+- Se actualizó el endpoint de edición para modificar registros existentes directamente en la base de datos.
+- Se actualizó el endpoint de eliminación para borrar registros utilizando la sesión de SQLModel.
+- Se agregaron validaciones para verificar la existencia de un cliente antes de consultar, editar o eliminar.
+- - Se incorporaron respuestas personalizadas utilizando `JSONResponse` y códigos de estado HTTP.
