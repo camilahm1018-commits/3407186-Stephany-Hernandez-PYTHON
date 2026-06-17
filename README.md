@@ -121,3 +121,10 @@ En este commit se realizo:
 - Se quito el `JSONResponse` cambiado por `HTTPException`
 - En los endpoints de cliente se agrego el `response_model`
 - Se hizo la CRUD en la base de datos con los clientes
+
+## 11 commit:
+
+En este commit se realizo:
+
+- Se eliminaron los clientes de la BD para una practica
+- Se translado el `.gitignore` para que ignore los `pycache` y `env`
