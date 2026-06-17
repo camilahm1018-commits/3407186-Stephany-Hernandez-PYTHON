@@ -98,10 +98,10 @@ En este commit se realizo:
 
 - Se configuró la conexión a una base de datos `SQLite` mediante `SQLModel`.
 - Se agregó la función `crear_tablas()` para generar automáticamente las tablas al iniciar la aplicación.
-- - Se modificó el archivo `main.py` para ejecutar la creación de tablas mediante el parámetro `lifespan`.
+- Se modificó el archivo `main.py` para ejecutar la creación de tablas mediante el parámetro `lifespan`.
 - El modelo `Cliente` fue actualizado de Pydantic a `SQLModel` para permitir su almacenamiento en la base de datos.
 - Se definió la tabla cliente utilizando `table=True`.
-- - Se configuró el campo `id` del modelo `Cliente` como llave primaria mediante `primary_key=True`.
+- Se configuró el campo `id` del modelo `Cliente` como llave primaria mediante `primary_key=True`.
 - Se reemplazó el atributo `edad` por el atributo `email` en el modelo de clientes.
 - Se modificó el modelo Cliente para utilizar `Field()` de SQLModel en la definición de sus atributos.
 - Se definieron los campos nombre, email y descripcion como columnas de la tabla cliente.
@@ -112,4 +112,12 @@ En este commit se realizo:
 - Se actualizó el endpoint de edición para modificar registros existentes directamente en la base de datos.
 - Se actualizó el endpoint de eliminación para borrar registros utilizando la sesión de SQLModel.
 - Se agregaron validaciones para verificar la existencia de un cliente antes de consultar, editar o eliminar.
-- - Se incorporaron respuestas personalizadas utilizando `JSONResponse` y códigos de estado HTTP.
+- Se incorporaron respuestas personalizadas utilizando `JSONResponse` y códigos de estado HTTP.
+
+## 10 commit:
+
+En este commit se realizo:
+
+- Se quito el `JSONResponse` cambiado por `HTTPException`
+- En los endpoints de cliente se agrego el `response_model`
+- Se hizo la CRUD en la base de datos con los clientes
