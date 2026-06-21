@@ -128,3 +128,12 @@ En este commit se realizo:
 
 - Se eliminaron los clientes de la BD para una practica
 - Se translado el `.gitignore` para que ignore los `pycache` y `env`
+
+## 12 commit:
+
+En este commit se realizo:
+
+- En los modelos de `Factura` `Transacciones` y  se importo `SQLModel`,`Field` y `Relationship` para crear las tablas 
+- En el campo de `Fecha` se cambio por `Field(default=datetime.now())`
+- Se crearon las tablas de `Factura` y `Transacciones`
+- Se creo la relación de las tablas por medio de las llaves Foraneas `Foreign_Key`
