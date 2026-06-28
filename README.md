@@ -133,7 +133,37 @@ En este commit se realizo:
 
 En este commit se realizo:
 
-- En los modelos de `Factura` `Transacciones` y  se importo `SQLModel`,`Field` y `Relationship` para crear las tablas 
+- En los modelos de `Factura` y `Transacciones` se importo `SQLModel`,`Field` y `Relationship` para crear las tablas 
 - En el campo de `Fecha` se cambio por `Field(default=datetime.now())`
 - Se crearon las tablas de `Factura` y `Transacciones`
 - Se creo la relación de las tablas por medio de las llaves Foraneas `Foreign_Key`
+
+## 13 commit:
+
+En este commit se realizo:
+
+## 13 commit:
+
+En este commit se realizó:
+
+- Se hizo el CRUD completo de Factura conectado a la base de datos:
+  - Se actualizó el endpoint de listar todas las facturas utilizando `select()` y `sesion.exec()`
+  - Se actualizó el endpoint de consultar factura por id utilizando `sesion.get()`
+  - Se actualizó el endpoint de creación de factura, recibiendo el `cliente_id` por la URL y validando que el cliente exista antes de crear la factura
+  - Se actualizó el endpoint de edición de factura para permitir cambiar el `cliente_id` (por la URL) y la `fecha` (por el body) utilizando `sqlmodel_update()`
+  - Se actualizó el endpoint de eliminación de factura utilizando la sesión de SQLModel
+
+- Se hizo el CRUD completo de Transacciones conectado a la base de datos:
+  - Se actualizó el endpoint de listar todas las transacciones
+  - Se creó el endpoint para listar las transacciones de una factura específica utilizando `select().where()` filtrando por `factura_id`, validando primero que la factura exista
+  - Se mantuvo el endpoint de crear transacción asociado a una factura
+  - Se actualizó el endpoint de edición de transacción, simplificando la ruta para que solo dependa del `transaccion_id` ya que no era necesario el `factura_id` para esta operación
+  - Se actualizó el endpoint de eliminación de transacción de la misma forma
+
+- Se cambiaron los métodos `PUT` por `PATCH` en los endpoints de edición, ya que permiten actualizar solo los campos enviados gracias a `exclude_unset=True`
+
+- Se eliminaron las importaciones de `listas_app` que ya no eran necesarias en los archivos `clientes.py` y `transacciones.py`, al no usar más las listas en memoria
+
+- Se ajustó el modelo `Factura`:
+  - Se cambió `fecha: str = Field(default=datetime.now())` por `fecha: datetime = Field(default_factory=datetime.now)`, para que la fecha se genere de forma dinámica en cada nueva factura y no quede fija desde que se inicia el servidor
+  - Se dejó preparado el campo `vr_total` como `computed_field` para implementarlo más adelante con `Relationship`

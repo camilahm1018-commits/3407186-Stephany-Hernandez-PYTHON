@@ -1,4 +1,3 @@
-from ..listas_app import lista_clientes
 from app.modelos.cliente import Cliente,ClienteCrear,ClienteEditar
 from fastapi import APIRouter, status
 from ..conexion_bd import Sesion_dependencia

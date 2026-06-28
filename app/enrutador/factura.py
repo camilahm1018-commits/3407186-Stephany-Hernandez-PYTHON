@@ -1,80 +1,100 @@
-from ..listas_app import lista_factura,lista_clientes
 from app.modelos.factura import Factura,FacturaCrear,FacturaEditar
-from fastapi.responses import JSONResponse
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, status
+from ..conexion_bd import Sesion_dependencia
+from sqlmodel import select
+from app.modelos.cliente import Cliente
+
 
 rutas_factura = APIRouter()
 
-@rutas_factura.get("/factura")
-async def listar_factura():
-    return {"Factura": lista_factura}
+@rutas_factura.get("/factura", response_model=list[Factura])
+async def listar_factura(sesion: Sesion_dependencia):
+    #Hacer una consulta con select : Select * from factura 
+    consulta = select(Factura)
+    lista_facturas = sesion.exec(consulta).all()
+    return lista_facturas
 
-@rutas_factura.get("/factura/{id}")
-async def listar_factura_id(id: int):
-    for factura in lista_factura:
-        if factura.id == id:
-            return factura
-    return {"mensaje": "Factura no encontrada"}
-
-@rutas_factura.post("/factura", response_model=Factura)
-async def crear_factura(datos_factura: FacturaCrear):
-    # buscar el cliente
-    cliente = next((c for c in lista_clientes if c.id == datos_factura.cliente_id), None)
+@rutas_factura.get("/factura/{factura_id}", response_model=Factura)
+async def listar_factura_id(factura_id: int, sesion: Sesion_dependencia):
     
-    if cliente is None:
-        return JSONResponse(
-            status_code=400,
-            content={"error": "Cliente no encontrado"}
+    factura= sesion.get(Factura,factura_id)
+    if not factura:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Factura no encontrado"
+        )
+    return factura
+
+@rutas_factura.post("/factura/{cliente_id}", response_model=Factura)
+async def crear_factura(datos_factura: FacturaCrear, cliente_id: int, sesion: Sesion_dependencia):
+    # buscar el cliente
+    cliente =  sesion.get(Cliente, cliente_id)
+    
+    if not cliente:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Cliente con id: {cliente_id}, no exite."
         )
 
-    factura_val = Factura(
-        id=len(lista_factura) + 1,
-        cliente=cliente,
-        transacciones=datos_factura.transacciones,
-        total=0
-    )
-    factura_val.total = factura_val.calcular_total()
-    lista_factura.append(factura_val)
+
+    #Validar los datos- json, pero debemos pasar a un diccionario
+    factura_dict = datos_factura.model_dump()
+    factura_dict ["cliente_id"] = cliente_id
+    factura_val = Factura.model_validate(factura_dict)
+    
+    #guardar en la bd
+    sesion.add(factura_val)
+    sesion.commit()
+    sesion.refresh(factura_val)
     return factura_val
 
 
 
-@rutas_factura.put("/factura/{id}")
-async def editar_factura(id: int, datos_factura: FacturaEditar):
-    cliente = next((c for c in lista_clientes if c.id == datos_factura.cliente_id), None)
-    factura = next((f for f in lista_factura if f.id == id), None)
+@rutas_factura.patch("/factura/{id}/{cliente_id}", response_model=Factura)
+async def editar_factura(factura_id: int,cliente_id: int, datos_factura: FacturaEditar, sesion: Sesion_dependencia):
     
-    if cliente is None:
-        return JSONResponse(
-            status_code=404,
-            content={"error": "Cliente no encontrado"}
+    cliente = sesion.get(Cliente, cliente_id)
+    factura= sesion.get(Factura,factura_id)
+    
+    if not cliente:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cliente no encontrado"
         )
 
-    if factura is None:
-        return JSONResponse(
-            status_code=404,
-            content={"error": "Factura no encontrada"}
+    if not factura:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Factura no encontrado"
         )
     
-    for i, obj_factura in enumerate(lista_factura):  
-        if obj_factura.id == id:
-            factura_val = Factura(
-                id=id,
-                cliente=cliente,
-                transacciones=datos_factura.transacciones,
-                total=0
-            )
-            factura_val.total = factura_val.calcular_total()  
-            lista_factura[i] = factura_val 
-            return {"mensaje": "Se actualizó la factura correctamente", "Factura": factura_val}
+    factura_dict = datos_factura.model_dump(exclude_unset=True)
+    factura.sqlmodel_update(factura_dict)
+    
+    factura.cliente_id = cliente_id 
+
+    sesion.add(factura) 
+    sesion.commit() 
+    sesion.refresh(factura)
+
+    return factura
 
 
-@rutas_factura.delete("/factura/{id}")
-async def eliminar_factura(id: int):
-    for i, obj_factura in enumerate(lista_factura):  
-        if obj_factura.id == id:
-            factura_val = Factura.model_validate(obj_factura.model_dump())
-            factura_val.id = id
-            lista_factura.pop(i) 
-            return {"mensaje" : "Se eliminó correctamente","Factura":factura_val}
-    return {"mensaje": "Factura no encontrada"}
+@rutas_factura.delete("/factura/{factura_id}", response_model=Factura)
+async def eliminar_factura(factura_id: int, sesion: Sesion_dependencia):
+    
+    factura= sesion.get(Factura, factura_id)
+    
+    if not factura:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Factura no encontrado"
+        )
+        
+    factura_eliminada = Factura.model_validate(factura)
+
+    sesion.delete(factura)
+    sesion.commit()
+
+    return factura_eliminada
+    
