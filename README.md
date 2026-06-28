@@ -138,9 +138,6 @@ En este commit se realizo:
 - Se crearon las tablas de `Factura` y `Transacciones`
 - Se creo la relación de las tablas por medio de las llaves Foraneas `Foreign_Key`
 
-## 13 commit:
-
-En este commit se realizo:
 
 ## 13 commit:
 
@@ -167,3 +164,16 @@ En este commit se realizó:
 - Se ajustó el modelo `Factura`:
   - Se cambió `fecha: str = Field(default=datetime.now())` por `fecha: datetime = Field(default_factory=datetime.now)`, para que la fecha se genere de forma dinámica en cada nueva factura y no quede fija desde que se inicia el servidor
   - Se dejó preparado el campo `vr_total` como `computed_field` para implementarlo más adelante con `Relationship`
+
+## 14 commit:
+
+En este commit se realizó:
+
+- Se creó el archivo `.gitignore` en la raíz del proyecto, ya que anteriormente 
+  se encontraba ubicado dentro de la carpeta `mi_env` y no cumplía su función
+- Se agregaron las siguientes reglas al `.gitignore`:
+  - `__pycache__/` → para ignorar las carpetas de caché de Python
+  - `*.pyc` → para ignorar los archivos compilados de Python
+  - `mi_env/` → para ignorar el entorno virtual
+- Se eliminaron del rastreo de Git las carpetas `__pycache__` que ya estaban 
+  subidas anteriormente, utilizando `git rm -r --cached`
