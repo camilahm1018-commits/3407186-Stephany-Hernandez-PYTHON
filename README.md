@@ -177,3 +177,18 @@ En este commit se realizó:
   - `mi_env/` → para ignorar el entorno virtual
 - Se eliminaron del rastreo de Git las carpetas `__pycache__` que ya estaban 
   subidas anteriormente, utilizando `git rm -r --cached`
+
+## 15 commit:
+
+En este commit se realizó:
+
+- Se agregaron las relaciones virtuales entre los modelos utilizando `Relationship`:
+- Se crearon modelos de lectura para mostrar la información al usuario sin exponer 
+  directamente los modelos de la base de datos:
+  - `ClienteLeer`
+  - `FacturaLeer` (incluye el cliente con `ClienteLeer`)
+  - `FacturaLeerCompuesta` (incluye también las transacciones)
+  - `TransaccionesLeer`
+- Se actualizó el `computed_field` `vr_total` en el modelo `Factura` para calcular 
+  el total recorriendo la lista de `transacciones` obtenida mediante la relación virtual
+- Se actualizó el endpoint `GET /factura` para utilizar `response_model=list[FacturaLeerCompuesta]`
