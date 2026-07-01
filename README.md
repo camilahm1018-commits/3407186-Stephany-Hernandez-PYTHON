@@ -201,3 +201,10 @@ En este commit se realizó:
 - El método decorado con `@computed_field` fue trasladado de `FacturaBase` a la clase `Factura`.
 - Se evitó el error que se producía al crear una factura, ya que los modelos `FacturaCrear` y `FacturaEditar` no contienen la relación `transacciones`.
 - Se mantuvo el cálculo automático del valor total de la factura recorriendo las transacciones asociadas.
+
+## 17 commit:
+
+En este commit se realizó:
+
+- Se corrigió el mensaje del endpoint `patch` del enrutador `Transacciones`
+ - De `detail=f"factura con id: {transacciones_id}, no exite."` por `detail=f"Transaccion con id: {transacciones_id}, no exite."`

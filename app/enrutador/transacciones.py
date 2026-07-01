@@ -92,7 +92,7 @@ async def eliminar_transacciones(transacciones_id: int, sesion: Sesion_dependenc
     if not transacciones:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Factura con id: {transacciones_id}, no exite."
+            detail=f"Transaccion con id: {transacciones_id}, no exite."
         )
 
 
