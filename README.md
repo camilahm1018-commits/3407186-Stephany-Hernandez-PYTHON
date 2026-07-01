@@ -192,3 +192,12 @@ En este commit se realizó:
 - Se actualizó el `computed_field` `vr_total` en el modelo `Factura` para calcular 
   el total recorriendo la lista de `transacciones` obtenida mediante la relación virtual
 - Se actualizó el endpoint `GET /factura` para utilizar `response_model=list[FacturaLeerCompuesta]`
+
+## 16 commit:
+
+En este commit se realizó:
+
+- Se corrigió el método `vr_total` del modelo `Factura`.
+- El método decorado con `@computed_field` fue trasladado de `FacturaBase` a la clase `Factura`.
+- Se evitó el error que se producía al crear una factura, ya que los modelos `FacturaCrear` y `FacturaEditar` no contienen la relación `transacciones`.
+- Se mantuvo el cálculo automático del valor total de la factura recorriendo las transacciones asociadas.
